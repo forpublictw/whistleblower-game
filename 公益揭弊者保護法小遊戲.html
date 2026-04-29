@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>吹哨者任務</title>
+
+<style>
+    body {
+        font-family: Arial;
+        background: #eef4ff;
+        text-align: center;
+        padding: 40px;
+    }
+
+    .card {
+        background: white;
+        padding: 30px;
+        border-radius: 14px;
+        width: 560px;
+        margin: auto;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+
+    button {
+        padding: 12px 18px;
+        margin: 10px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .btnA { background: #4CAF50; color: white; }
+    .btnB { background: #f44336; color: white; }
+
+    #result {
+        margin-top: 20px;
+        font-weight: bold;
+        min-height: 40px;
+    }
+
+    #score {
+        font-size: 20px;
+        margin-top: 10px;
+    }
+
+    .tag {
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 10px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h1>🕵️ 吹哨者任務</h1>
+    <h3>公益揭弊者保護法</h3>
+    <div class="tag">判斷是否符合「公益揭弊者保護法相關規範」</div>
+
+    <p id="caseText">載入中...</p>
+
+    <button class="btnA" onclick="answer('A')">A：yes/應揭弊</button>
+    <button class="btnB" onclick="answer('B')">B：no/不應揭弊</button>
+
+    <div id="result"></div>
+    <div id="score">分數：0</div>
+</div>
+
+<script>
+let score = 0;
+let index = 0;
+
+const cases = [
+    {
+        text: "某政府機關承辦人員疑似在採購標案中收受不當利益",
+        answer: "A",
+        explain: "涉及政府採購不法，屬重大公益揭弊事項"
+    },
+    {
+        text: "戶政事務所人員因揭發資料造假，遭調離原職務",
+        answer: "A",
+        explain: "屬報復性調動，法律禁止"
+    },
+    {
+        text: "某行政機關內部文件格式錯誤但未影響結果",
+        answer: "B",
+        explain: "不屬重大公益違法事項"
+    },
+    {
+        text: "揭發環保稽查人員包庇污染廠商後遭刁難",
+        answer: "A",
+        explain: "屬報復行為，受法律保護"
+    },
+    {
+        text: "揭弊者身份依法可受到保密保護",
+        answer: "A",
+        explain: "法律保障揭弊者身分保密"
+    },
+    {
+        text: "某公立醫療機構涉及健保申報不實",
+        answer: "A",
+        explain: "涉及公共資源不法使用"
+    },
+    {
+        text: "一般公務行程安排變更屬報復行為",
+        answer: "B",
+        explain: "正常行政調整不等同報復"
+    },
+    {
+        text: "揭發重大貪污案件後可申請人身安全保護",
+        answer: "A",
+        explain: "法律提供安全保護機制"
+    },
+    {
+        text: "輕微行政疏失即可適用揭弊免責",
+        answer: "B",
+        explain: "免責需符合公益與善意揭弊"
+    },
+    {
+        text: "揭發公務員偽造出勤紀錄",
+        answer: "A",
+        explain: "涉及公務紀錄不實，屬公益揭弊"
+    }
+];
+
+function loadCase() {
+    if (index >= cases.length) {
+        document.getElementById("caseText").innerHTML = "🎮 遊戲結束！";
+        document.getElementById("result").innerHTML = finalMessage();
+        return;
+    }
+
+    document.getElementById("caseText").innerHTML =
+        "情境：" + cases[index].text;
+
+    document.getElementById("result").innerHTML = "";
+}
+
+function answer(choice) {
+    const c = cases[index];
+
+    if (choice === c.answer) {
+        score += 10;
+        document.getElementById("result").innerHTML =
+            "✅ 正確！ " + c.explain;
+    } else {
+        score -= 5;
+        document.getElementById("result").innerHTML =
+            "❌ 錯誤！ " + c.explain;
+    }
+
+    document.getElementById("score").innerHTML = "分數：" + score;
+
+    index++;
+    setTimeout(loadCase, 1200);
+}
+
+function finalMessage() {
+    if (score >= 60) return "👍 已掌握基本公益揭弊保護概念";
+    if (score < 50)return "⚠️ 建議加強理解公益揭弊者保護法適用範圍";
+}
+
+loadCase();
+</script>
+
+</body>
+</html>
